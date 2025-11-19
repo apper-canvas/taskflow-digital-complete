@@ -208,7 +208,29 @@ const handleSubmit = async (e) => {
             />
           </FormField>
         </div>
-
+{/* File Upload Section */}
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-slate-700">
+            File Attachments
+          </label>
+          <div className="border border-slate-200 rounded-md p-3 bg-slate-50">
+            <ApperFileFieldComponent
+              elementId={`task-form-${editTask?.id || 'new'}`}
+              config={{
+                fieldKey: `task-file-${editTask?.id || Date.now()}`,
+                fieldName: 'file_c',
+                tableName: 'task_c',
+                apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+                apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY,
+                existingFiles: formData.attachments || [],
+                fileCount: (formData.attachments || []).length
+              }}
+            />
+          </div>
+          <p className="text-xs text-slate-500">
+            You can upload files to attach to this task
+          </p>
+        </div>
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
           {editTask && (
             <Button

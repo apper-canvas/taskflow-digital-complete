@@ -18,8 +18,8 @@ const params = {
         {"field": {"Name": "description_c"}},
         {"field": {"Name": "priority_c"}},
         {"field": {"Name": "dueDate_c"}},
-        {"field": {"Name": "completed_c"}},
-        {"field": {"Name": "attachments_c"}},
+{"field": {"Name": "completed_c"}},
+        {"field": {"Name": "file_c"}},
         {"field": {"Name": "CreatedOn"}},
         {"field": {"Name": "ModifiedOn"}}
       ],
@@ -42,7 +42,7 @@ return tasks.map(task => ({
       priority: task.priority_c || 'medium',
       dueDate: task.dueDate_c || null,
       completed: task.completed_c || false,
-      attachments: task.attachments_c || [],
+attachments: task.file_c || [],
       createdAt: task.CreatedOn,
       completedAt: task.completed_c ? task.ModifiedOn : null,
       tags: task.Tags || '',
@@ -71,7 +71,7 @@ fields: [
         {"field": {"Name": "priority_c"}},
         {"field": {"Name": "dueDate_c"}},
         {"field": {"Name": "completed_c"}},
-        {"field": {"Name": "attachments_c"}},
+{"field": {"Name": "file_c"}},
         {"field": {"Name": "CreatedOn"}},
         {"field": {"Name": "ModifiedOn"}}
       ]
@@ -95,7 +95,7 @@ id: task.Id,
       priority: task.priority_c || 'medium',
       dueDate: task.dueDate_c || null,
       completed: task.completed_c || false,
-      attachments: task.attachments_c || [],
+attachments: task.file_c || [],
       createdAt: task.CreatedOn,
       completedAt: task.completed_c ? task.ModifiedOn : null,
       tags: task.Tags || '',
@@ -122,8 +122,8 @@ Name: taskData.title || 'Untitled Task',
       description_c: taskData.description || '',
       priority_c: taskData.priority || 'medium',
       dueDate_c: taskData.dueDate || null,
-      completed_c: false,
-      attachments_c: taskData.attachments || []
+completed_c: false,
+      file_c: taskData.attachments || []
     }
 
     const params = {
@@ -153,8 +153,8 @@ title: created.title_c || '',
           description: created.description_c || '',
           priority: created.priority_c || 'medium',
           dueDate: created.dueDate_c || null,
-          completed: created.completed_c || false,
-          attachments: created.attachments_c || [],
+completed: created.completed_c || false,
+          attachments: created.file_c || [],
           createdAt: created.CreatedOn,
           completedAt: null,
           tags: created.Tags || '',
@@ -200,8 +200,8 @@ const update = async (id, updateData) => {
     if (updateData.completed !== undefined) {
       dbRecord.completed_c = updateData.completed
     }
-    if (updateData.attachments !== undefined) {
-      dbRecord.attachments_c = updateData.attachments
+if (updateData.attachments !== undefined) {
+      dbRecord.file_c = updateData.attachments
     }
 
     const params = {
@@ -231,8 +231,8 @@ title: updated.title_c || '',
           description: updated.description_c || '',
           priority: updated.priority_c || 'medium',
           dueDate: updated.dueDate_c || null,
-          completed: updated.completed_c || false,
-          attachments: updated.attachments_c || [],
+completed: updated.completed_c || false,
+          attachments: updated.file_c || [],
           createdAt: updated.CreatedOn,
           completedAt: updated.completed_c ? updated.ModifiedOn : null,
           tags: updated.Tags || '',
