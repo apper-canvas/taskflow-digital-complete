@@ -1,0 +1,52 @@
+[
+  {
+    "id": "task-1",
+    "title": "Complete project proposal",
+    "description": "Finalize the Q4 project proposal with budget estimates and timeline",
+    "priority": "high",
+    "dueDate": "2024-02-15",
+    "completed": false,
+    "createdAt": "2024-02-10T08:30:00.000Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-2", 
+    "title": "Review team performance reports",
+    "description": "Go through monthly performance reports and prepare feedback",
+    "priority": "medium",
+    "dueDate": "2024-02-18",
+    "completed": false,
+    "createdAt": "2024-02-09T14:15:00.000Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-3",
+    "title": "Update website content",
+    "description": "Refresh homepage content and update product descriptions",
+    "priority": "low",
+    "dueDate": "2024-02-20",
+    "completed": true,
+    "createdAt": "2024-02-08T10:00:00.000Z",
+    "completedAt": "2024-02-11T16:45:00.000Z"
+  },
+  {
+    "id": "task-4",
+    "title": "Schedule client meetings",
+    "description": "Set up meetings with key clients for next week",
+    "priority": "high",
+    "dueDate": "2024-02-14",
+    "completed": false,
+    "createdAt": "2024-02-07T12:20:00.000Z",
+    "completedAt": null
+  },
+  {
+    "id": "task-5",
+    "title": "Organize team building event",
+    "description": "Plan and organize quarterly team building activities",
+    "priority": "medium",
+    "dueDate": null,
+    "completed": false,
+    "createdAt": "2024-02-06T09:30:00.000Z",
+    "completedAt": null
+  }
+]

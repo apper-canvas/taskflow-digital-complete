@@ -1,0 +1,44 @@
+import { forwardRef } from "react"
+import { cn } from "@/utils/cn"
+
+const Textarea = forwardRef(({ 
+  variant = "default",
+  size = "md",
+  error,
+  rows = 3,
+  className,
+  ...props 
+}, ref) => {
+  const baseClasses = "w-full border rounded-lg transition-all duration-200 ease-out placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed resize-none"
+  
+  const variants = {
+    default: "border-slate-300 bg-white text-slate-900 focus:border-primary focus:ring-primary/20",
+    error: "border-error bg-white text-slate-900 focus:border-error focus:ring-error/20"
+  }
+  
+  const sizes = {
+    sm: "px-3 py-2 text-sm",
+    md: "px-4 py-3 text-sm",
+    lg: "px-4 py-4 text-base"
+  }
+  
+  const currentVariant = error ? "error" : variant
+  
+  return (
+    <textarea
+      ref={ref}
+      rows={rows}
+      className={cn(
+        baseClasses,
+        variants[currentVariant],
+        sizes[size],
+        className
+      )}
+      {...props}
+    />
+  )
+})
+
+Textarea.displayName = "Textarea"
+
+export default Textarea
