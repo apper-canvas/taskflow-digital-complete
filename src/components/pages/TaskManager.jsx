@@ -1,16 +1,22 @@
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import ApperIcon from "@/components/ApperIcon"
-import Loading from "@/components/ui/Loading"
-import ErrorView from "@/components/ui/ErrorView"
-import TaskStats from "@/components/organisms/TaskStats"
-import TaskForm from "@/components/organisms/TaskForm"
-import TaskFilters from "@/components/organisms/TaskFilters"
-import TaskList from "@/components/organisms/TaskList"
-import { taskService } from "@/services/api/taskService"
-import { sortTasks, filterTasks, searchTasks } from "@/utils/taskUtils"
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { taskService } from "@/services/api/taskService";
+import { useAuth } from "@/layouts/Root";
+import { useSelector } from "react-redux";
+import { filterTasks, searchTasks, sortTasks } from "@/utils/taskUtils";
+import ApperIcon from "@/components/ApperIcon";
+import SearchBar from "@/components/molecules/SearchBar";
+import Loading from "@/components/ui/Loading";
+import ErrorView from "@/components/ui/ErrorView";
+import TaskFilters from "@/components/organisms/TaskFilters";
+import TaskStats from "@/components/organisms/TaskStats";
+import TaskForm from "@/components/organisms/TaskForm";
+import TaskList from "@/components/organisms/TaskList";
+import Button from "@/components/atoms/Button";
 
 const TaskManager = () => {
+  const { logout } = useAuth()
+  const { user } = useSelector(state => state.user)
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -64,7 +70,7 @@ const TaskManager = () => {
     setEditingTask(null)
   }
 
-  // Filter and sort tasks
+  // Process and filter tasks
   const filteredTasks = searchTasks(
     sortTasks(
       filterTasks(tasks, filters),
@@ -72,65 +78,58 @@ const TaskManager = () => {
     ),
     searchQuery
   )
-
-  if (loading) {
-    return <Loading />
-  }
-
-  if (error) {
-    return <ErrorView error={error} onRetry={loadTasks} />
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-primary to-indigo-600 rounded-xl flex items-center justify-center mr-3">
-              <ApperIcon name="CheckCircle" size={24} className="text-white" />
-            </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-primary to-indigo-700 bg-clip-text text-transparent">
+return (
+    <div className="min-h-screen bg-slate-50">
+      <div className="max-w-6xl mx-auto p-6 space-y-8">
+        {/* Header with user info and logout */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">
               TaskFlow
             </h1>
+            <p className="text-slate-600">
+              Welcome back, {user?.firstName || user?.emailAddress || 'User'}
+            </p>
           </div>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Your personal task management companion. Organize your work, track your progress, 
-            and achieve your goals with effortless simplicity.
-          </p>
-        </motion.div>
+          <Button
+            variant="outline"
+            onClick={logout}
+            className="flex items-center gap-2"
+          >
+            <ApperIcon name="LogOut" size={16} />
+            Logout
+          </Button>
+        </div>
 
-        {/* Stats */}
+        {/* Task Statistics */}
         <TaskStats tasks={tasks} />
 
         {/* Task Form */}
         <TaskForm
-          onTaskCreated={handleTaskCreated}
           editTask={editingTask}
+          onTaskCreated={handleTaskCreated}
+          onTaskUpdated={handleTaskUpdated}
           onEditCancel={handleEditCancel}
         />
 
-        {/* Filters */}
-        <TaskFilters
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          filters={filters}
-          onFiltersChange={setFilters}
-          tasks={tasks}
-        />
+        {/* Filters and Search */}
+        <div className="space-y-4">
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Search tasks..."
+          />
+          
+          <TaskFilters
+            tasks={tasks}
+            filters={filters}
+            onFiltersChange={setFilters}
+          />
+        </div>
 
-        {/* Task List */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-slate-900">
+<div className="space-y-6">
+          <div>
+            <h2 className="text-xl font-semibold text-slate-900 mb-4">
               {searchQuery ? (
                 <>Search Results ({filteredTasks.length})</>
               ) : filters.status === "all" ? (
@@ -149,6 +148,12 @@ const TaskManager = () => {
               </div>
             )}
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
 
           <TaskList
             tasks={filteredTasks}

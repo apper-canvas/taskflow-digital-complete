@@ -24,12 +24,12 @@ const TaskFilters = ({
     {
       value: "active",
       label: "Active",
-      icon: <ApperIcon name="Circle" size={14} />,
+icon: <ApperIcon name="Circle" size={14} />,
       count: tasks.filter(t => !t.completed).length
     },
     {
       value: "completed",
-      label: "Completed",
+      label: "Completed", 
       icon: <ApperIcon name="CheckCircle" size={14} />,
       count: tasks.filter(t => t.completed).length
     }
