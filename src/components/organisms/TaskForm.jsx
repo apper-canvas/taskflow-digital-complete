@@ -1,52 +1,63 @@
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { toast } from "react-toastify"
-import ApperIcon from "@/components/ApperIcon"
-import Button from "@/components/atoms/Button"
-import Input from "@/components/atoms/Input"
-import Textarea from "@/components/atoms/Textarea"
-import Select from "@/components/atoms/Select"
-import FormField from "@/components/molecules/FormField"
-import { taskService } from "@/services/api/taskService"
-import { formatDateForInput } from "@/utils/dateUtils"
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-toastify";
+import ApperFileFieldComponent from "@/components/atoms/FileUploader/ApperFileFieldComponent";
+import { taskService } from "@/services/api/taskService";
+import { formatDateForInput } from "@/utils/dateUtils";
+import ApperIcon from "@/components/ApperIcon";
+import FormField from "@/components/molecules/FormField";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import Input from "@/components/atoms/Input";
+import Textarea from "@/components/atoms/Textarea";
 
 const TaskForm = ({ onTaskCreated, editTask, onEditCancel }) => {
   const [formData, setFormData] = useState({
-    title: editTask?.title || "",
-    description: editTask?.description || "",
-    priority: editTask?.priority || "medium",
-    dueDate: editTask?.dueDate ? formatDateForInput(editTask.dueDate) : ""
-  })
-  
-  const [errors, setErrors] = useState({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isExpanded, setIsExpanded] = useState(!!editTask)
+    title: '',
+    description: '',
+    priority: 'medium',
+    dueDate: '',
+    attachments: []
+  });
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [isExpanded, setIsExpanded] = useState(!!editTask);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Update form data when editTask changes
+  useEffect(() => {
+    if (editTask) {
+      setFormData({
+        title: editTask.title || '',
+        description: editTask.description || '',
+        priority: editTask.priority || 'medium',
+        dueDate: formatDateForInput(editTask.dueDate) || '',
+        attachments: editTask.attachments || []
+      });
+    }
+  }, [editTask]);
 
   const validateForm = () => {
-    const newErrors = {}
+    const newErrors = {};
     
     if (!formData.title.trim()) {
-      newErrors.title = "Task title is required"
+      newErrors.title = "Task title is required";
     } else if (formData.title.length > 100) {
-      newErrors.title = "Task title must be 100 characters or less"
+      newErrors.title = "Title must be less than 100 characters";
     }
     
-    if (formData.description.length > 500) {
-      newErrors.description = "Description must be 500 characters or less"
-    }
-    
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+const handleSubmit = async (e) => {
+    e.preventDefault();
     
     if (!validateForm()) {
-      return
+      return;
     }
     
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     
     try {
       const taskData = {
@@ -144,7 +155,7 @@ const TaskForm = ({ onTaskCreated, editTask, onEditCancel }) => {
             onClick={() => setIsExpanded(false)}
             className="text-slate-500 hover:text-slate-700"
           >
-            <ApperIcon name="X" size={16} />
+<ApperIcon name="X" size={16} />
           </Button>
         )}
       </div>

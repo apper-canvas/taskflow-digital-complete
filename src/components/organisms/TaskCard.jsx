@@ -138,13 +138,60 @@ const TaskCard = ({ task, onUpdate, onDelete, onEdit }) => {
               </Button>
             </div>
           </div>
-
-          {task.description && (
+{task.description && (
             <p className={`text-slate-600 text-sm mb-4 leading-relaxed ${
               task.completed ? "text-slate-400" : ""
             }`}>
               {task.description}
             </p>
+          )}
+
+          {/* File Attachments */}
+          {task.attachments && task.attachments.length > 0 && (
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <ApperIcon name="Paperclip" size={14} className="text-slate-500" />
+                <span className="text-xs font-medium text-slate-600">
+                  {task.attachments.length} attachment{task.attachments.length !== 1 ? 's' : ''}
+                </span>
+              </div>
+              <div className="space-y-2">
+                {task.attachments.slice(0, 3).map((file, index) => (
+                  <div 
+                    key={file.Id || file.id || index}
+                    className="flex items-center gap-2 p-2 bg-slate-50 rounded-md border border-slate-200"
+                  >
+                    <ApperIcon name="File" size={14} className="text-slate-500 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium text-slate-700 truncate">
+                        {file.Name || file.name || 'Unnamed File'}
+                      </p>
+                      {file.Size && (
+                        <p className="text-xs text-slate-500">
+                          {(file.Size / 1024).toFixed(1)} KB
+                        </p>
+                      )}
+                    </div>
+                    {file.Url && (
+                      <a
+                        href={file.Url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:text-primary-dark transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ApperIcon name="Download" size={14} />
+                      </a>
+                    )}
+                  </div>
+                ))}
+                {task.attachments.length > 3 && (
+                  <div className="text-xs text-slate-500 text-center py-1">
+                    +{task.attachments.length - 3} more file{task.attachments.length - 3 !== 1 ? 's' : ''}
+                  </div>
+                )}
+              </div>
+            </div>
           )}
 
           <div className="flex items-center justify-between">
@@ -174,7 +221,7 @@ const TaskCard = ({ task, onUpdate, onDelete, onEdit }) => {
                 Completed
               </div>
             )}
-          </div>
+</div>
         </div>
       </div>
     </motion.div>

@@ -10,7 +10,7 @@ const getAll = async () => {
       throw new Error('ApperClient not available')
     }
 
-    const params = {
+const params = {
       fields: [
         {"field": {"Name": "Name"}},
         {"field": {"Name": "Tags"}},
@@ -19,6 +19,7 @@ const getAll = async () => {
         {"field": {"Name": "priority_c"}},
         {"field": {"Name": "dueDate_c"}},
         {"field": {"Name": "completed_c"}},
+        {"field": {"Name": "attachments_c"}},
         {"field": {"Name": "CreatedOn"}},
         {"field": {"Name": "ModifiedOn"}}
       ],
@@ -34,13 +35,14 @@ const getAll = async () => {
 
     // Transform data to match UI expectations
     const tasks = response.data || []
-    return tasks.map(task => ({
+return tasks.map(task => ({
       id: task.Id,
       title: task.title_c || '',
       description: task.description_c || '',
       priority: task.priority_c || 'medium',
       dueDate: task.dueDate_c || null,
       completed: task.completed_c || false,
+      attachments: task.attachments_c || [],
       createdAt: task.CreatedOn,
       completedAt: task.completed_c ? task.ModifiedOn : null,
       tags: task.Tags || '',
@@ -61,7 +63,7 @@ const getById = async (id) => {
     }
 
     const params = {
-      fields: [
+fields: [
         {"field": {"Name": "Name"}},
         {"field": {"Name": "Tags"}},
         {"field": {"Name": "title_c"}},
@@ -69,6 +71,7 @@ const getById = async (id) => {
         {"field": {"Name": "priority_c"}},
         {"field": {"Name": "dueDate_c"}},
         {"field": {"Name": "completed_c"}},
+        {"field": {"Name": "attachments_c"}},
         {"field": {"Name": "CreatedOn"}},
         {"field": {"Name": "ModifiedOn"}}
       ]
@@ -86,12 +89,13 @@ const getById = async (id) => {
 
     // Transform data to match UI expectations
     return {
-      id: task.Id,
+id: task.Id,
       title: task.title_c || '',
       description: task.description_c || '',
       priority: task.priority_c || 'medium',
       dueDate: task.dueDate_c || null,
       completed: task.completed_c || false,
+      attachments: task.attachments_c || [],
       createdAt: task.CreatedOn,
       completedAt: task.completed_c ? task.ModifiedOn : null,
       tags: task.Tags || '',
@@ -113,12 +117,13 @@ const create = async (taskData) => {
 
     // Map UI fields to database fields (only Updateable fields)
     const dbRecord = {
-      Name: taskData.title || 'Untitled Task',
+Name: taskData.title || 'Untitled Task',
       title_c: taskData.title || '',
       description_c: taskData.description || '',
       priority_c: taskData.priority || 'medium',
       dueDate_c: taskData.dueDate || null,
-      completed_c: false
+      completed_c: false,
+      attachments_c: taskData.attachments || []
     }
 
     const params = {
@@ -144,11 +149,12 @@ const create = async (taskData) => {
         // Return in UI format
         return {
           id: created.Id,
-          title: created.title_c || '',
+title: created.title_c || '',
           description: created.description_c || '',
           priority: created.priority_c || 'medium',
           dueDate: created.dueDate_c || null,
           completed: created.completed_c || false,
+          attachments: created.attachments_c || [],
           createdAt: created.CreatedOn,
           completedAt: null,
           tags: created.Tags || '',
@@ -187,12 +193,15 @@ const update = async (id, updateData) => {
     }
     if (updateData.priority !== undefined) {
       dbRecord.priority_c = updateData.priority
-    }
+}
     if (updateData.dueDate !== undefined) {
       dbRecord.dueDate_c = updateData.dueDate
     }
     if (updateData.completed !== undefined) {
       dbRecord.completed_c = updateData.completed
+    }
+    if (updateData.attachments !== undefined) {
+      dbRecord.attachments_c = updateData.attachments
     }
 
     const params = {
@@ -218,11 +227,12 @@ const update = async (id, updateData) => {
         // Return in UI format
         return {
           id: updated.Id,
-          title: updated.title_c || '',
+title: updated.title_c || '',
           description: updated.description_c || '',
           priority: updated.priority_c || 'medium',
           dueDate: updated.dueDate_c || null,
           completed: updated.completed_c || false,
+          attachments: updated.attachments_c || [],
           createdAt: updated.CreatedOn,
           completedAt: updated.completed_c ? updated.ModifiedOn : null,
           tags: updated.Tags || '',
