@@ -161,10 +161,11 @@ return (
             onTaskDelete={handleTaskDeleted}
             onTaskEdit={handleEditTask}
             onCreateTask={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+onCreateTask={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             searchQuery={searchQuery}
           />
         </motion.div>
-
+      </div>
         {/* Footer */}
         <motion.div 
           initial={{ opacity: 0 }}
