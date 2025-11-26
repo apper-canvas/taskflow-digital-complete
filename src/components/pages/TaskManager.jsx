@@ -17,6 +17,7 @@ import Button from "@/components/atoms/Button";
 const TaskManager = () => {
   const { logout } = useAuth()
   const { user, roleName } = useSelector(state => state.user)
+  const { roleName } = useSelector(state => state.roleName)
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
