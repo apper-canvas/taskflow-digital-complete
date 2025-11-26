@@ -93,6 +93,7 @@ export default function Root() {
 
   const handleAuthSuccess = (user) => {
     if (user) {
+      dispatch(setRoleName(user?.accounts[0]?.profile?.name))
       dispatch(setUser(user))
       handleNavigation()
     } else {

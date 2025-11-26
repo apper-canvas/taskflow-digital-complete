@@ -4,6 +4,7 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   isInitialized: false,
+  roleName: null
 }
 
 export const userSlice = createSlice({
@@ -22,6 +23,9 @@ export const userSlice = createSlice({
     setInitialized: (state, action) => {
       state.isInitialized = action.payload
     },
+    setRoleName: (roleName) {
+        state.roleName = roleName;
+    }
   },
 })
 
