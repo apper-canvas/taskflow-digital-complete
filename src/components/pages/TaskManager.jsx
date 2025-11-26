@@ -16,7 +16,7 @@ import Button from "@/components/atoms/Button";
 
 const TaskManager = () => {
   const { logout } = useAuth()
-  const { user } = useSelector(state => state.user)
+  const { user, roleName } = useSelector(state => state.user)
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -85,7 +85,7 @@ return (
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-slate-900 mb-2">
-              TaskFlow
+              TaskFlow, {roleName}
             </h1>
             <p className="text-slate-600">
               Welcome back, {user?.firstName || user?.emailAddress || 'User'}
