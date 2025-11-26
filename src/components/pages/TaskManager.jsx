@@ -16,8 +16,7 @@ import Button from "@/components/atoms/Button";
 
 const TaskManager = () => {
   const { logout } = useAuth()
-  const { user, roleName } = useSelector(state => state.user)
-  const { roleName } = useSelector(state => state.roleName)
+const { user, roleName } = useSelector(state => state.user)
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -161,7 +160,6 @@ return (
             onTaskUpdate={handleTaskUpdated}
             onTaskDelete={handleTaskDeleted}
             onTaskEdit={handleEditTask}
-            onCreateTask={() => window.scrollTo({ top: 0, behavior: "smooth" })}
 onCreateTask={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             searchQuery={searchQuery}
           />
