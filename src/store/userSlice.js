@@ -4,6 +4,7 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   isInitialized: false,
+  roleName: null
 }
 
 export const userSlice = createSlice({
@@ -22,8 +23,11 @@ export const userSlice = createSlice({
     setInitialized: (state, action) => {
       state.isInitialized = action.payload
     },
+    setRoleName: (roleName) {
+        state.roleName = roleName;
+    }
   },
 })
 
-export const { setUser, clearUser, setInitialized } = userSlice.actions
+export const { setUser, clearUser, setInitialized, setRoleName } = userSlice.actions
 export default userSlice.reducer
