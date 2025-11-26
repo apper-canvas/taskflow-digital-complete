@@ -23,13 +23,12 @@ export const userSlice = createSlice({
     setInitialized: (state, action) => {
       state.isInitialized = action.payload
     },
-    setRoleName: (roleName) {
-        state.roleName = roleName;
+setRoleName: (state, action) => {
+        state.roleName = action.payload;
     }
   },
 })
 
 export const { setUser, clearUser, setInitialized } = userSlice.actions
 export default userSlice.reducer
-export const { setUser, clearUser, setInitialized } = userSlice.actions
-export default userSlice.reducer
+export const { setUser, clearUser, setInitialized, setRoleName } = userSlice.actions
